@@ -5,12 +5,13 @@
 
 
 from __future__ import print_function
+import sys
+import os
+import optparse
+import numpy as np
 import mdtraj as md
 import matplotlib.pyplot as plt
 #from sklearn.decomposition import PCA
-import numpy as np
-import optparse
-import os
 
 
 def parse_cmdline(cmdlineargs):
