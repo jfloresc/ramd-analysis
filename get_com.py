@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 """ This script gets center of mass from a trajectory
-
-18.04.2018"""
+by jose flores-canales 18.04.2018"""
 
 
 from __future__ import print_function
