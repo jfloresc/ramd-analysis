@@ -51,7 +51,7 @@ def get_cog(traj):
 def get_com_ligand(filename):
     """get center of mass from a trajectory"""
 
-    print("Trajectory: ", filename, "\n")
+    print("Trajectory: ", filename)
     topol_name = 'topol.prmtop'
     pdb_ref = 'start.pdb'
     T1 = md.load(filename, top=topol_name)
@@ -59,9 +59,9 @@ def get_com_ligand(filename):
     topology = topol.topology
     selection = 'resname GLA'
     atom_to_keep = topology.select(selection)
-    print("Number of frames in trajectory:", T1.n_frames, "\n")
+    print("Number of frames in trajectory:", T1.n_frames)
     T1.restrict_atoms(atom_to_keep)
-    print("Number of atoms in selection:", T1.n_atoms, "\n")
+    print("Number of atoms in selection:", T1.n_atoms)
     coord = md.compute_center_of_mass(T1)
     print("Dimensions of COM coordinates:", coord.shape, "\n")
 
