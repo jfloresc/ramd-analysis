@@ -36,15 +36,16 @@ def get_cog(traj):
     n_atoms = traj.n_atoms
     average = np.zeros((n_atoms, 3))
     for frame in xrange(n_frames):
+        s_x, s_y, s_z = 0.0, 0.0, 0.0
         coord = traj.xyz[frame] 
         for atom_i in xrange(n_atoms):
-            s_x = coord[atom_i, 0]
-            s_y = coord[atom_i, 1]
-            s_z = coord[atom_i, 2]
-        sx /= n_atoms
-        sy /= n_atoms
-        sz /= n_atoms
-        data.append([sx, sy, sz])
+            s_x += coord[atom_i, 0]
+            s_y += coord[atom_i, 1]
+            s_z += coord[atom_i, 2]
+        s_x /= n_atoms
+        s_y /= n_atoms
+        s_z /= n_atoms
+        data.append([s_x, s_y, s_z])
     return np.array(data)
 
 
@@ -53,7 +54,7 @@ def get_com_ligand(filename):
 
     print("Trajectory: ", filename)
     topol_name = 'topol.prmtop'
-    pdb_ref = 'start.pdb'
+    pdb_ref = 'start_conf.pdb'
     T1 = md.load(filename, top=topol_name)
     topol = md.load(pdb_ref)
     topology = topol.topology
@@ -63,12 +64,15 @@ def get_com_ligand(filename):
     T1.restrict_atoms(atom_to_keep)
     print("Number of atoms in selection:", T1.n_atoms)
     coord = md.compute_center_of_mass(T1)
+    coord_cog = get_cog(T1)
     print("Dimensions of COM coordinates:", coord.shape, "\n")
 
     basename = os.path.basename(filename)
     out = basename.split('.')
     output_file = out[0] + '_COM.dat'
     np.savetxt(output_file, coord, fmt='%3.4f', delimiter='\t') # Save array	
+    output_file = out[0] + '_COG.dat'
+    np.savetxt(output_file, coord_cog, fmt='%3.4f', delimiter='\t') # Save array	
 
 
 ###########################################################
